@@ -1,0 +1,11 @@
+<% if  logged_in? && current_user.has_like?(@listing) %>
+  <%= link_to "Unlike", listing_like_path(@listing), method: :delete, remote: true %>
+<% else %>
+  <%= link_to "Like", listing_like_path(@listing), method: :post, remote: true %>
+<% end %>
+
+<%= @listing.likes.count %>
+
+<% @listing.likes.each do |like| %>
+  <%= gravatar_for like.user, size: 20 %>
+<% end %>

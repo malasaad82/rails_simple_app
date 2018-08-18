@@ -1,0 +1,69 @@
+<h2><%= @listing.title %></h2>
+<%= @listing.body %>
+
+<div class="listing-meta">
+  <%= link_to 'Edit', edit_listing_path(@listing), class: "btn-sm btn-success" %>
+  <%= link_to 'Delete', listing_path(@listing), class: "btn-sm btn-danger", method: :delete, data: { confirm: "Are you sure?"} %>
+
+  <% if logged_in? %>
+    <% if current_user.can_join_listing?(@listing.id)  %>
+      <%= link_to 'Join Listing', employeeships_path(user_id: current_user, listing_id: @listing.id), class: "btn-sm btn-info", method: :post %>
+    <% else %>
+      <span class="badge badge-secondary">
+          You already added to this Listing
+       </span>
+    <% end %>
+  <% end %>
+
+</div>
+
+<h4>Created by</h4>
+<%= @listing.user.name %><br>
+<%= user_email(@listing.user) %>
+
+<div id="like">
+	<%= render 'likes/like_button', :listing => @listing %>
+</div>
+
+
+
+<hr>
+<h2>Employees - Pending</h2>
+<%#= debug @listing.users %>
+<% @listing.pending_users.each do |user| %>
+  <div>
+    <span class="h2"><%= link_to user.name, user_path(user) %></span>
+
+    <% if logged_in? %>
+      <% if ( ( employeeship_find(user,@listing).requested_by == employeeship_find(user,@listing).user_id ) &&
+              ( current_user.listing_ids.first == employeeship_find(user,@listing).listing_id ) ||
+              ( current_user.id == employeeship_find(user,@listing).user_id ) &&
+              ( employeeship_find(user,@listing).requested_by != employeeship_find(user,@listing).user_id ) ) %>
+        <%= link_to 'Accept', employeeship_path(user_id: user, listing_id: @listing.id), class: "btn-sm btn-success", method: :put, data: { confirm: "Are you sure?"} %>
+      <% end %>
+    <% end %>
+
+    <% if logged_in? %>
+      <% if @listing.user_id == current_user.id || current_user.id == @listing.employeeship_for_listing(user, @listing).user_id %>
+        <%= link_to 'Cancel', employeeship_path(user_id: user, listing_id: @listing.id), class: "btn-sm btn-danger", method: :delete, data: { confirm: "Are you sure?"} %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+
+<hr>
+<h2>Employees - Accepted</h2>
+<%#= debug @listing.users %>
+<% @listing.accepted_users.each do |user| %>
+  <div>
+    <span class="h2"><%= link_to user.name, user_path(user) %></span>
+
+  <% if logged_in? %>
+    <% if @listing.user_id == current_user.id || current_user.id ==  user.id %>
+      <%= link_to 'Delete', employeeship_path(user_id: user, listing_id: @listing.id), class: "btn-sm btn-danger", method: :delete, data: { confirm: "Are you sure?"} %>
+    <% end %>
+  <% end %>
+    
+  </div>
+<% end %>

@@ -1,0 +1,18 @@
+<% provide(:title, 'New listing') %>
+<h1>New listing</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for @listing do |f| %>
+      <%= render 'shared/error_messages', obj: @listing %>
+     
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control'%>
+
+      <%= f.label :body %>
+      <%= f.text_area :body, cols: 30, rows: 10, class: 'form-control' %>
+
+      <%= f.submit "Create new listing", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<h1>Listings</h1>
+<%= will_paginate %>
+
+<div class="listings">
+  <% @listings.each do |listing| %>
+    <h2><%= link_to listing.title, listing_path(listing) %></h2>
+    <%= truncate(listing.body, :length => 250) %>
+    <%= link_to 'View', listing_path(listing) %>
+    <%= link_to 'Edit', edit_listing_path(listing) %>
+    <%= link_to 'Delete', listing_path(listing), method: :delete, data: { confirm: "Are you sure?"} %>
+
+<%
+=begin %>
+    <small>Created by <%= listing.user.name if listing.user %>,
+      <%= time_ago_in_words(listing.created_at) %> ago,
+      <%= time_ago_in_words(listing.updated_at) %> ago</small>
+<%
+=end %>
+
+  <% end %>
+</div>

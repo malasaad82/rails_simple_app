@@ -10,7 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126112052) do
+ActiveRecord::Schema.define(version: 20180814191832) do
+
+  create_table "employeeships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "listing_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "requested_by"
+    t.index ["listing_id"], name: "index_employeeships_on_listing_id"
+    t.index ["user_id"], name: "index_employeeships_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "listing_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -25,6 +51,8 @@ ActiveRecord::Schema.define(version: 20180126112052) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.integer "role", default: 0
+    t.boolean "owner", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

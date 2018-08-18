@@ -1,0 +1,18 @@
+<h1>Edit Listing</h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= render 'shared/error_messages', obj: @listing %>
+
+    <%= form_for(@listing) do |f| %>
+     
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control'%>
+
+      <%= f.label :body %>
+      <%= f.text_area :body, cols: 30, rows: 10, class: 'form-control' %>
+
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
