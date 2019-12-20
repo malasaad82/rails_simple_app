@@ -312,7 +312,7 @@ GEM
       method_source (~> 0.9.0)
     public_suffix (3.0.1)
     puma (3.9.1)
-    rack (2.0.3)
+    rack (2.0.8)
     rack-contrib (2.0.1)
       rack (~> 2.0)
     rack-test (0.8.2)
